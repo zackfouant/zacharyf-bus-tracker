@@ -1,0 +1,59 @@
+//Keeping with the bus, I decided to use a familiar bus route that I used to take when living in my home state.
+const routeStops = [
+  [-77.05167298434172, 39.03799853383128],
+  [-77.0546415713009, 39.03973247584716],  
+  [-77.0558066290763, 39.04035866516492],  
+  [-77.05801975598449, 39.041534390385884],
+  [-77.06061265821421, 39.04289392811586], 
+  [-77.06288247507362, 39.044081134525726],
+  [-77.06717005786012, 39.04674177650314], 
+  [-77.06898524251932, 39.04847717904426], 
+  [-77.0714188164241, 39.04996440716038],  
+  [-77.07548707562923, 39.052262964868945],
+  [-77.08001505783184, 39.05485388476333], 
+  [-77.08284488542816, 39.05648519186554], 
+  [-77.08476398235649, 39.05756152410148], 
+  [-77.08954801916435, 39.060305885064935],
+  [-77.09146077006471, 39.061870599796435],
+  [-77.0901382926457, 39.06416090565432],  
+  [-77.08845464000453, 39.066477230924455],
+  [-77.08799815803208, 39.06950105372112], 
+  [-77.08695979241502, 39.072608674718765],
+  [-77.08659608375811, 39.07452720498797],
+  [-77.08679451573181, 39.077311245256325],
+  [-77.08706741662691, 39.079051531571146],
+  [-77.08705193853993, 39.080979117231216],
+  [-77.0869342659643, 39.08318313159103],
+  [-77.08675657158739, 39.08567627663852],
+  [-77.08772589803844, 39.08606692537427],
+  [-77.08827313890245, 39.0868220853431],
+  [-77.08983711042733, 39.08756042786942],
+  [-77.09406566655449, 39.088826388946494],
+];
+
+// access token
+mapboxgl.accessToken = 'pk.eyJ1IjoiZGl6enkteWVsbG93IiwiYSI6ImNsaDU5bjZ0eDFhY24zZm9hcHVqaXp4d2EifQ.Bcs0bxWBCupqL-IyDuG59Q';
+
+//creating map object with default near station
+let map = new mapboxgl.Map({
+  container: 'map',
+  style: 'mapbox://styles/mapbox/dark-v11',
+  center: [-77.05167298434172, 39.03799853383128],
+  zoom: 14,
+});
+
+//set marker at station
+let marker = new mapboxgl.Marker().setLngLat([routeStops[0][0], routeStops[0][1]]).addTo(map);
+
+// counter is index of the current stop
+let counter = 0;
+function move() {
+
+  //every second, update marker.setLngLat to next stop on list, return when counter outside index range.
+  setTimeout(() => {
+    if (counter >= routeStops.length) return;
+    marker.setLngLat(routeStops[counter]);
+    counter++;
+    move();
+  }, 1000);
+}
